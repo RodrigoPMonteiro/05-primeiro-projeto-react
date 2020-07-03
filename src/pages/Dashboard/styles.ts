@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import styled from 'styled-components';
 
 import { shade } from 'polished';
@@ -28,8 +27,8 @@ export const Form = styled.form`
     border-radius: 5px 0 0 5px;
     color: #3a3a3a;
 
-    &::placeholder.{
-      color: #a8a8b3;
+    &::placeholder{
+      color: #a8a8b3
     }
   }
 
@@ -43,7 +42,7 @@ export const Form = styled.form`
     font-weight: bold;
     transition: background-color 0.2s;
 
-    &:hover.{
+    &:hover {
       background: ${shade(0.2, '#04d361')};
     }
   }
@@ -69,7 +68,7 @@ export const Repositories = styled.div`
       margin-top: 16px;
     }
 
-    &:hover{
+    &:hover {
       transform: translateX(10px);
     }
 
@@ -80,17 +79,17 @@ export const Repositories = styled.div`
     }
 
     div {
-      margin-left: 0 16px;
+      margin: 0 16px;
       flex: 1;
 
       strong {
         font-size: 20px;
-        color: #3d3d4d;
+        color: #3D3D4D;
       }
 
       p{
         font-size: 18px;
-        color: #a8a8a3;
+        color: #A8A8B3;
         margin-top: 4px;
       }
     }
