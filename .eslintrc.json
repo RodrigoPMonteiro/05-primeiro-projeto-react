@@ -24,34 +24,28 @@
     },
     "plugins": [
         "react",
-        "react-hooks",
+        "@react-hook",
         "@typescript-eslint",
         "prettier"
     ],
     "rules": {
-        "react-hooks/rules-of-hooks": "error",
-        "react-hooks/exhaustive-deps": "warn",
-        "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
-        "import/prefer-default-export": "off",
-        "@typescript-eslint/explicit-function-return-type": [
-          "error",
-          {
-            "allowExpressions":true
-          }
-        ],
-        "import/extensions": [
-            "error",
-            "ignorePackages",
-            {
-              "ts": "never",
-              "tsx": "never"
-            }
-          ],
-        "prettier/prettier": "error"
-    },
-    "settings": {
+      "prettier/prettier": "error",
+      "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "warn",
+      "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
+      "import/prefer-default-export": "off",
+      "import/extensions": [
+        "error",
+        "ignorePackages",
+        {
+          "ts": "never",
+          "tsx": "never"
+        }
+      ]
+      },
+      "settings": {
         "import/resolver": {
           "typescript": {}
         }
-      }
+    }
 }
