@@ -1,4 +1,4 @@
-import React , { useEffect} from 'react';
+import React , { useEffect, useState } from 'react';
 import { useRouteMatch, Link } from 'react-router-dom';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { Header, RepositoryInfo , Issues } from './styles';
@@ -8,21 +8,48 @@ import api from '../../services/api';
 interface RepositoryParams {
   repository: string;
 }
+
+interface Repository {
+  full_name: string;
+  description: string;
+  owner: {
+    login: string;
+    avatar_url: string;
+  };
+  stargazers_count: number;
+  forks_count: number;
+  open_issues_count: number;
+}
+
+interface Issue{
+  id: number;
+  html_url: string;
+  title: string;
+  user: {
+    login: string;
+  }
+
+}
 // nesse formato de arrow function podemos usar tipagem
 // FC --> Function Component
 const Repository: React.FC = () => {
+    const [repository, setRepository] = useState<Repository | null>(null);
+    const [issues, setIssues] = useState<Issue[]>([]);
+
   const { params } = useRouteMatch<RepositoryParams>();
 
   useEffect(() => {
     api.get(`repos/${params.repository}`).then( response => {
-      console.log(response.data);
+      //console.log(response.data);
+      setRepository(response.data);
     })
 
     api.get(`repos/${params.repository}/issues`).then( response => {
-      console.log(response.data);
-    }) 
+      //console.log(response.data);
+      setIssues(response.data);
+    })
   }, [params.repository])
-  
+
   return (
     <>
       <Header>
@@ -32,42 +59,50 @@ const Repository: React.FC = () => {
             Voltar
           </Link>
       </Header>
-      <RepositoryInfo>
-        <header>
-          <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ7k2qI6TIPHa0KAWDvTTCj3eGGvO7zK3ZUMw&usqp=CAU"
-            alt="Pockemon"
-          />
-          <div>
-            <strong>Repokemon</strong>
-            <p>Descrição do repositorio</p>
-          </div>
-        </header>
-        <ul>
-          <li>
-            <strong>1808</strong>
-            <span>Stars</span>
-          </li>
-          <li>
-            <strong>48</strong>
-            <span>forks</span>
-          </li>
-          <li>
-            <strong>67</strong>
-            <span>Issues abertas</span>
-          </li>
-        </ul>
-      </RepositoryInfo>
+
+      {repository && (
+        <RepositoryInfo>
+          <header>
+            <img
+              src={repository.owner.avatar_url}
+              alt={repository.owner.login}
+            />
+            <div>
+              <strong>{repository.full_name}</strong>
+              <p>{repository.description}</p>
+            </div>
+          </header>
+          <ul>
+            <li>
+              <strong>{repository.stargazers_count}</strong>
+              <span>Stars</span>
+            </li>
+            <li>
+              <strong>{repository.forks_count}</strong>
+              <span>forks</span>
+            </li>
+            <li>
+              <strong>{repository.open_issues_count}</strong>
+              <span>Issues abertas</span>
+            </li>
+          </ul>
+        </RepositoryInfo>
+
+      )}
+
       <Issues>
-        <Link
-           to="/aafdafsd"
+        {issues.map( issue => (
+           <a
+           key={issue.id}
+           href={issue.html_url}
           >
           <div>
-            <strong>gfsfgsgfs</strong>
-            <p>gsgsfgfs</p>
+            <strong>{issue.title}</strong>
+            <p>{issue.user.login}</p>
           </div>
           <FiChevronRight size={20} />
-        </Link>
+        </a>
+        ) )}
       </Issues>
     </>
     );
