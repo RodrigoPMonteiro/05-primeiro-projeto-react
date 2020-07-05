@@ -1,8 +1,9 @@
-import React from 'react';
+import React , { useEffect} from 'react';
 import { useRouteMatch, Link } from 'react-router-dom';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { Header, RepositoryInfo , Issues } from './styles';
 import logoImg from '../../assets/logo.svg';
+import api from '../../services/api';
 
 interface RepositoryParams {
   repository: string;
@@ -11,6 +12,17 @@ interface RepositoryParams {
 // FC --> Function Component
 const Repository: React.FC = () => {
   const { params } = useRouteMatch<RepositoryParams>();
+
+  useEffect(() => {
+    api.get(`repos/${params.repository}`).then( response => {
+      console.log(response.data);
+    })
+
+    api.get(`repos/${params.repository}/issues`).then( response => {
+      console.log(response.data);
+    }) 
+  }, [params.repository])
+  
   return (
     <>
       <Header>
